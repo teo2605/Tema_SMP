@@ -26,11 +26,13 @@ start_rezervor_h equ 50
 
 w_suport equ 80 ; dimensiuni suport
 h_suport equ 20
-start_suport equ 200 ; pozitie suport
+start_suport equ 200 ; pozitie suport    
+
+
+pas_lichid equ 10 ; distanta intre doua picaturi
+dim_lichid equ 5  ; lungimea unei picaturi
 
 jmp main
-
-
 
 
 main:   
@@ -39,7 +41,14 @@ main:
     mov al, 13h ; trecere in mod grafic 320x200
     int 10h       
            
-      
+    ; incepem programul
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
+     
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute
    
     ; suport
     ; suport sus
@@ -98,7 +107,23 @@ main:
         cmp dx, start_cana_h+h_cana+1
         ja suport_4
 
-
+    
+     mov ah, 02    ; load beep
+     mov dl, 07h
+     int 21h       ; execute
+     
+     mov ah, 02    ; load beep
+     mov dl, 07h
+     int 21h       ; execute
+    
+    
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
+     
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute
     ; cana
     
     ; afisare latura inferioara cana
@@ -143,6 +168,13 @@ main:
         ja cana_4
                    
 
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
+     
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute
     ; toarta
     
     ; toarta latura superioara
@@ -200,7 +232,13 @@ main:
         ja toarta_4
         
         
-        
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
+     
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute    
     
     
     
@@ -263,7 +301,13 @@ main:
         ja teava_4
                      
     
-    
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
+     
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute
     
     ; rezervor de bauturi
     
@@ -277,8 +321,8 @@ main:
         mov ah, 0ch ;afisare pixel
         int 10h
         dec cx
-        cmp cx, rezervor_1
-        jae u9
+        cmp cx, start_rezervor_w
+        jae rezervor_1
     
     
     ; rezervor_inferior
@@ -291,8 +335,8 @@ main:
         mov ah, 0ch
         int 10h
         dec cx
-        cmp cx, rezervor_2
-        ja u10
+        cmp cx, start_rezervor_w
+        ja rezervor_2
     
     
     ; rezervor stanga
@@ -305,8 +349,8 @@ main:
         mov ah, 0ch
         int 10h
         dec dx
-        cmp dx, rezervor_3
-        ja u11
+        cmp dx, start_rezervor_h
+        ja rezervor_3
     
     
     ; rezervor dreapta
@@ -319,10 +363,17 @@ main:
         mov ah, 0ch
         int 10h
         dec dx
-        cmp dx, rezervor_4
-        ja u12
+        cmp dx, start_rezervor_h
+        ja rezervor_4
 
-
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
+     
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute
+    
     ; afisare mesaje
     ;'Bine ati venit la automatul de bauturi!'
     
@@ -678,14 +729,96 @@ main:
     int 10h
 
 
+    mov ah, 02    ; load beep
+    mov dl, 07h
+    int 21h       ; execute 
 
-
-
-
+    
+    ; ne pozitionam la iesirea tevii
+    
+    mov cx, start_teava_w 
+    mov dx, start_teava_h+5  
+    mov si, cx ; aux pentru latime  
+    mov di, dx ; aux pentru inaltime
+    
+    ; add si, pas_lichid
+    
+    jmp comanda
+    
+    
 
 ; asteptare apasare tasta
-mov ah,00
-int 16h
+    comanda:    
+         
+        mov ah,00 ; selectam comanda
+        int 16h
+        
+        cmp al, 116 ; ceai
+        mov al, 3 ; alb     
+        jmp picaturi_w
+        
+        cmp al, 99  ; cafea
+        mov al, 5 ; alb     
+        jmp picaturi_w
+        
+        cmp al, 119 ; apa   
+        mov al, 7 ; alb     
+        jmp picaturi_w
+        
+        jmp comanda ; daca s-a apasat altceva
+        
+     
+    
+    
+    picaturi_w:
+    
+        ; desenez de unde iese lichidul pana la cana, cu pas de 10 
+        mov al, 3 ; alb       
+        
+        jmp picaturi_w
+        ; add cx, pas_lichid
+        
+        picatura_w: 
+            
+            mov ah, 0ch ;afisare pixel
+            int 10h
+            inc cx
+            cmp cx, si+dim_lichid
+            jae picatura_w
+         
+         add cx, pas_lichid
+         mov si, cx
+         
+         cmp cx, start_teava_w + w_teava - 5
+         jnge picaturi_w 
+         jg picaturi_h
+         
+     picaturi_h:
+         
+         mov al, 3 ; alb       
+        
+        jmp picatura_h
+        ; add cx, pas_lichid
+        
+        picatura_h: 
+            
+            mov ah, 0ch ;afisare pixel
+            int 10h
+            inc dx
+            cmp dx, di+dim_lichid
+            jae picatura_h
+         
+         add dx, pas_lichid
+         mov di, dx
+         
+         cmp di, start_teava_h + h_cana + 15
+         jnge picaturi_h
+         
+         
+    
+        
+        
+      
       
 exit:
     HLT
