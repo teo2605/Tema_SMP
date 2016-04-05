@@ -2,9 +2,13 @@
 ; You may customize this and other start-up templates; 
 ; The location of this template is c:\emu8086\inc\0_com_template.txt
 
-org 100h 
 
-include 'emu8086.inc'
+
+;org 0x7C00 ; BIOS-ul va încãrca programul nostru la 0x7C00
+;bits 16 ; procesorul porne.te în modul de lucru pe 16 bi.i
+ 
+
+
 
 jmp code
 
@@ -31,8 +35,7 @@ start_suport equ 200 ; pozitie suport
 code:   mov ah, 0
         mov al, 13h ; trecere in mod grafic 320x200
         int 10h       
-        
-
+       
     
 ; suport sus
 mov cx, start_suport+w_suport ; coloana
@@ -264,16 +267,355 @@ u12: mov ah, 0ch
     ja u12
 
 
-CALL PTHIS
-DB 13, 10, 'Bine ati venit la automatul de bauturi!', 0 
-CALL PTHIS
-DB 13, 10, 'Selectati bautura:', 0
-CALL PTHIS
-DB 13, 10, 'T: Ceai', 0
-CALL PTHIS
-DB 13, 10, 'C: Cafea', 0
-CALL PTHIS
-DB 13, 10, 'W: Apa', 0
+
+;DB 13, 10, 'Bine ati venit la automatul de bauturi!', 0 
+;CALL PTHIS
+
+mov ah, 0Eh; B
+mov al, 66
+int 10h
+
+mov ah, 0Eh; i
+mov al, 105
+int 10h
+
+mov ah, 0Eh; n
+mov al, 110
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; i
+mov al, 105
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; v
+mov al, 118
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; n
+mov al, 110
+int 10h
+
+mov ah, 0Eh; i
+mov al, 105
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; l
+mov al, 108
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h       
+
+mov ah, 0Eh; u
+mov al, 117
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+
+mov ah, 0Eh; o
+mov al, 111
+int 10h
+
+mov ah, 0Eh; m
+mov al, 109
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; u
+mov al, 105
+int 10h
+
+mov ah, 0Eh; l
+mov al, 108
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; d
+mov al, 100
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; b
+mov al, 98
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; u
+mov al, 117
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; u
+mov al, 117
+int 10h
+
+mov ah, 0Eh; r
+mov al, 114
+int 10h
+
+mov ah, 0Eh; i
+mov al, 105
+int 10h
+
+mov ah, 0Eh; !
+mov al, 33
+int 10h
+
+mov ah, 0Eh; [enter]
+mov al, 13
+int 10h   
+
+;DB 13, 10, 'Selectati bautura:', 0
+;CALL PTHIS
+
+mov ah, 0Eh; S
+mov al, 83
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; l
+mov al, 108
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; c
+mov al, 99
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; i
+mov al, 105
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h    
+
+mov ah, 0Eh; b
+mov al, 98
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; u
+mov al, 117
+int 10h
+
+mov ah, 0Eh; t
+mov al, 116
+int 10h
+
+mov ah, 0Eh; u
+mov al, 117
+int 10h
+
+mov ah, 0Eh; r
+mov al, 114
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; :
+mov al, 58
+int 10h       
+
+mov ah, 0Eh; [enter]
+mov al, 13
+int 10h
+
+;DB 13, 10, 'T: Ceai', 0
+;CALL PTHIS             
+
+mov ah, 0Eh; T
+mov al, 84
+int 10h
+
+mov ah, 0Eh; :
+mov al, 58
+int 10h
+
+mov ah, 0Eh; [spatiu]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; C
+mov al, 67
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; i
+mov al, 105
+int 10h
+
+mov ah, 0Eh; [enter]
+mov al, 13
+int 10h
+
+;DB 13, 10, 'C: Cafea', 0
+;CALL PTHIS
+
+mov ah, 0Eh; C
+mov al, 67
+int 10h
+
+mov ah, 0Eh; :
+mov al, 58
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; C
+mov al, 67
+int 10h
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; f
+mov al, 102
+int 10h
+
+mov ah, 0Eh; e
+mov al, 101
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; [enter]
+mov al, 13
+int 10h
+            
+;DB 13, 10, 'W: Apa', 0            
+            
+mov ah, 0Eh; W
+mov al, 87
+int 10h
+
+mov ah, 0Eh; :
+mov al, 58
+int 10h
+
+mov ah, 0Eh; [space]
+mov al, 32
+int 10h
+
+mov ah, 0Eh; A
+mov al, 65
+int 10h
+
+mov ah, 0Eh; p
+mov al, 112
+int 10h
+
+mov ah, 0Eh; a
+mov al, 97
+int 10h
+
+mov ah, 0Eh; [enter]
+mov al, 13
+int 10h
+
+
+
 
 
 
@@ -284,12 +626,12 @@ int 16h
       
 exit:
     HLT
-
-DEFINE_PTHIS
-DEFINE_SCAN_NUM      
+     
 
 ret
 
 
 
 
+;times 510 - ($-$$) db 0 ; avem nevoie de 512 octe.i, completam cu 0
+;dw 0xAA55 ; semnatura pentru bootloader
