@@ -743,8 +743,6 @@ main:
     
     ; add si, pas_lichid
     
-    jmp comanda
-    
     
 
 ; asteptare apasare tasta
@@ -754,28 +752,26 @@ main:
         int 16h
         
         cmp al, 116 ; ceai
-        mov al, 3 ; alb     
+        mov al, 3 ; verde     
         jmp picaturi_w
         
         cmp al, 99  ; cafea
-        mov al, 5 ; alb     
+        mov al, 6 ; maro
         jmp picaturi_w
         
         cmp al, 119 ; apa   
-        mov al, 7 ; alb     
+        mov al, 7 ; albastru     
         jmp picaturi_w
         
         jmp comanda ; daca s-a apasat altceva
         
      
-    
-    
+    ; umplere teava
+    ; umplere pe orizontala
     picaturi_w:
     
         ; desenez de unde iese lichidul pana la cana, cu pas de 10 
-        mov al, 3 ; alb       
-        
-        jmp picaturi_w
+
         ; add cx, pas_lichid
         
         picatura_w: 
@@ -793,11 +789,9 @@ main:
          jnge picaturi_w 
          jg picaturi_h
          
+     ; umplere pe verticala
      picaturi_h:
-         
-         mov al, 3 ; alb       
-        
-        jmp picatura_h
+                             
         ; add cx, pas_lichid
         
         picatura_h: 
@@ -814,12 +808,73 @@ main:
          cmp di, start_teava_h + h_cana + 15
          jnge picaturi_h
          
-         
+         ; ma pozitionez la inceputul canii
+     
+    
+    ; umplere cana
+    mov dx, start_cana_h+h_cana-5
+    
+    umplere_cana:
+        
+        mov cx, start_cana_w+w_cana-5
+        
+        umplere: 
+        
+            mov ah, 0ch
+            int 10h
+            dec cx
+            cmp cx, start_cana_w+5
+            ja umplere
+        
+        dec dx
+        cmp dx, start_cana_h+10
+        jge umplere_cana     
+  
     
         
+    mov al, 0        
+    ; am umplut cat am vrut
+    stop_umplere_w:
+    
+        ; desenez de unde iese lichidul pana la cana, cu pas de 10 
         
-      
-      
+        stop_picatura_w: 
+            
+            mov ah, 0ch ;afisare pixel
+            int 10h
+            inc cx
+            cmp cx, si+dim_lichid
+            jae stop_picatura_w
+         
+         add cx, pas_lichid
+         mov si, cx
+         
+         cmp cx, start_teava_w + w_teava - 5
+         jnge stop_umplere_w 
+         jg stop_umplere_h
+         
+    
+    
+     ; umplere pe verticala
+     stop_umplere_h:
+       
+        stop_picatura_h: 
+            
+            mov ah, 0ch ;afisare pixel
+            int 10h
+            inc dx
+            cmp dx, di+dim_lichid
+            jae stop_picatura_h
+         
+         add dx, pas_lichid
+         mov di, dx
+         
+         cmp di, start_cana_h+10
+         jnge stop_umplere_h
+                
+        
+        
+    
 exit:
     HLT
      
